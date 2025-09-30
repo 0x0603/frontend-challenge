@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import Dialog from "@/components/Dialog";
 import MainLayout from "@/components/MainLayout";
 
+import RegisterForm from "./components/RegisterForm";
 import styles from "./styles.module.scss";
 
 const Referrals = () => {
@@ -13,15 +14,9 @@ const Referrals = () => {
   return (
     <MainLayout>
       <Box className={styles.authSection}>
-        <Text
-          fontSize={{ base: "32px", md: "40px" }}
-          fontWeight="700"
-          fontFamily="var(--font-norse)"
-        >
-          REFERRALS
-        </Text>
-        <Text fontSize={{ base: "16px", md: "20px" }} color="var(--text-secondary)">
-          Refer Friends. Explore the Mocaverse Together. Earn Rewards on Every NFT Trade. You and
+        <Text className="text-title">REFERRALS</Text>
+        <Text className="text-subtitle" color="var(--text-secondary)">
+          Refer Friends. Explore the Mocaverse Together. Earn Rewards on Every NFT Trade.You and
           your friend each earn a <strong className={styles.highlight}>10%</strong> commission on
           every NFT trade on Mocaverse.
         </Text>
@@ -29,8 +24,8 @@ const Referrals = () => {
           Enter Referral Code
         </Button>
       </Box>
-      <Dialog open={open} onClose={onClose} title="Enter Referral Code">
-        <Box></Box>
+      <Dialog open={open} onClose={onClose}>
+        <RegisterForm />
       </Dialog>
     </MainLayout>
   );
