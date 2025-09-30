@@ -1,10 +1,88 @@
-@use "sass:math";
+/* Modern CSS Reset */
+@use "./responsive";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background: var(--background);
+  color: var(--text);
+  font-family:
+    var(--font-reem-kufi), apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
 
 :root {
-  --brand: #4a90e2;
+  --background: #000210;
+  --background-secondary: #000;
+
+  --border: #232636;
+
+  --text: #fff;
+  --text-reverse: #000;
+  --text-secondary: hsla(0, 0%, 100%, 0.7);
+  --text-muted: #808080;
+  --text-disabled: #666666;
+  --text-error: #ff0000;
+  --text-success: #00ff00;
+  --text-warning: #ffff00;
+  --text-info: #0000ff;
 }
 
 .app-container {
-  min-height: 100vh;
-  background: linear-gradient(180deg, rgba(74, 144, 226, 0.04), transparent 200px);
+  min-height: 100dvh;
+  width: 100dvw;
+  background: var(--background);
 }

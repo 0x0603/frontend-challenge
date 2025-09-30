@@ -1,0 +1,47 @@
+.button {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-reverse);
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-reem-kufi);
+
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.makeup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  flex: 1;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+}

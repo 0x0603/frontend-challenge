@@ -1,0 +1,39 @@
+/* Breakpoints */
+$bp-xs: 360px;
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+
+/* Mixin for media queries */
+@mixin respond($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: #{$bp-xs}) {
+      @content;
+    }
+  } @else if $breakpoint == sm {
+    @media (max-width: #{$bp-sm}) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media (max-width: #{$bp-md}) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media (max-width: #{$bp-lg}) {
+      @content;
+    }
+  } @else if $breakpoint == xl {
+    @media (max-width: #{$bp-xl}) {
+      @content;
+    }
+  }
+}
+
+@mixin is-mobile($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: #{$bp-sm}) {
+      @content;
+    }
+  }
+}
