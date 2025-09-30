@@ -1,5 +1,6 @@
 /* Modern CSS Reset */
 @use "./responsive";
+@use "./utils";
 
 *,
 *::before,
@@ -67,6 +68,7 @@ a {
 :root {
   --background: #000210;
   --background-secondary: #000;
+  --background-dialog: #2e2e2e;
 
   --border: #232636;
 
