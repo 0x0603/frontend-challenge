@@ -231,18 +231,6 @@ describe("Accessibility", () => {
 - Tablet (768x1024)
 - Mobile (375x667)
 
-## Test Execution
-
-### Automated Tests
-
-```bash
-# Run unit tests
-yarn test
-
-# Run E2E tests
-yarn test:e2e
-```
-
 ### Manual Tests
 
 1. **Smoke Testing**: Basic functionality
