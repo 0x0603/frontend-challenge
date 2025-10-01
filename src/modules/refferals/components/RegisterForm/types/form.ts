@@ -8,3 +8,9 @@ export interface IStep {
   title: string;
   ref: React.RefObject<HTMLDivElement | null>;
 }
+
+export interface IRegisterFormValues {
+  referralCode: string;
+  email: string;
+  currentStep: RegisterFormSteps;
+}

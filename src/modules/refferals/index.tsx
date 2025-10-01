@@ -7,7 +7,7 @@ import ClientOnly from "@/components/ClientOnly";
 import Dialog from "@/components/Dialog";
 import MainLayout from "@/components/MainLayout";
 
-import RegisterForm from "./components/RegisterForm";
+import RegisterForm from "./components/RegisterForm/UI";
 import styles from "./styles.module.scss";
 
 const Referrals = () => {

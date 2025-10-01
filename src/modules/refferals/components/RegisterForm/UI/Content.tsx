@@ -1,17 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useFormikContext } from "formik";
+
+import { useEffect, useMemo, useRef } from "react";
 
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 
-import { IStep, RegisterFormSteps } from "@/modules/refferals/types/register-form";
+import {
+  IRegisterFormValues,
+  RegisterFormSteps,
+} from "@/modules/refferals/components/RegisterForm/types/form";
+import { IStep } from "@/modules/refferals/components/RegisterForm/types/form";
 
-import InforForm from "./InforForm";
-import InviteCodeForm from "./InviteCodeForm";
-
-const FormContainer = ({ children }: { children: React.ReactNode }) => (
-  <VStack gap="32px" align="stretch" p="8px" h="100%">
-    {children}
-  </VStack>
-);
+import InforForm from "./InfoForm";
+import ReferralCodeForm from "./ReferralCodeForm";
 
 const FormTitle = ({ text }: { text: string }) => (
   <Text textAlign="center" className="text-subtitle" fontSize="28px">
@@ -19,24 +19,19 @@ const FormTitle = ({ text }: { text: string }) => (
   </Text>
 );
 
-const RegisterForm = () => {
-  const [step, setStep] = useState(RegisterFormSteps.ENTER_CODE);
+const Content = () => {
+  const { values } = useFormikContext<IRegisterFormValues>();
+  const { currentStep } = values;
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const enterCodeStepRef = useRef<HTMLDivElement>(null);
   const submitStepRef = useRef<HTMLDivElement>(null);
 
-  const nextStep = () => {
-    if (step === RegisterFormSteps.ENTER_CODE) {
-      setStep(RegisterFormSteps.SUBMIT);
-    }
-  };
-
   const renderStep = ({ key, ref, title }: IStep) => {
     let component = null;
     switch (key) {
       case RegisterFormSteps.ENTER_CODE:
-        component = <InviteCodeForm nextStep={nextStep} />;
+        component = <ReferralCodeForm />;
         break;
       case RegisterFormSteps.SUBMIT:
         component = <InforForm />;
@@ -44,12 +39,19 @@ const RegisterForm = () => {
     }
 
     return (
-      <Box minWidth="50%" flex="0 0 50%" key={key} ref={ref}>
-        <FormContainer>
-          <FormTitle text={title} />
-          {component}
-        </FormContainer>
-      </Box>
+      <VStack
+        minWidth="50%"
+        flex="0 0 50%"
+        key={key}
+        ref={ref}
+        gap="32px"
+        p="8px"
+        h="100%"
+        align="stretch"
+      >
+        <FormTitle text={title} />
+        {component}
+      </VStack>
     );
   };
 
@@ -73,7 +75,7 @@ const RegisterForm = () => {
   useEffect(() => {
     const scrollToStep = () => {
       if (!scrollContainerRef.current) return;
-      const currentStepRef = steps.find((_step) => _step.key === step)?.ref?.current;
+      const currentStepRef = steps.find((_step) => _step.key === currentStep)?.ref?.current;
       if (currentStepRef) {
         currentStepRef.scrollIntoView({
           behavior: "smooth",
@@ -85,7 +87,7 @@ const RegisterForm = () => {
     // Small delay to ensure DOM is updated
     const timeoutId = setTimeout(scrollToStep, 100);
     return () => clearTimeout(timeoutId);
-  }, [step]);
+  }, [currentStep]);
 
   return (
     <Box
@@ -105,4 +107,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default Content;
