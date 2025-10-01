@@ -30,6 +30,11 @@
     // opacity: 0.5;
     cursor: not-allowed;
   }
+
+  &.gradient {
+    background: linear-gradient(90deg, rgb(241, 165, 39) 0%, rgb(255, 210, 134) 100%);
+    color: var(--text-reverse);
+  }
 }
 
 .makeup {

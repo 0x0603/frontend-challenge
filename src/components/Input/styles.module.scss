@@ -1,0 +1,140 @@
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 48px;
+
+  &::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 0 0 3px rgba(255, 255, 255, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  &:disabled {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: var(--border);
+    color: var(--text-disabled);
+    cursor: not-allowed;
+    opacity: 0.6;
+
+    &::placeholder {
+      color: var(--text-disabled);
+    }
+  }
+
+  &.error {
+    border-color: var(--text-error);
+    background: rgba(255, 0, 0, 0.05);
+
+    &:focus {
+      border-color: var(--text-error);
+      box-shadow:
+        0 0 0 3px rgba(255, 0, 0, 0.1),
+        0 4px 16px rgba(255, 0, 0, 0.1);
+    }
+  }
+
+  &.success {
+    border-color: var(--text-success);
+
+    &:focus {
+      border-color: var(--text-success);
+      box-shadow:
+        0 0 0 3px rgba(0, 255, 0, 0.1),
+        0 4px 16px rgba(0, 255, 0, 0.1);
+    }
+  }
+
+  // Size variants
+  &.small {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+  }
+
+  &.large {
+    padding: 16px 20px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  // Icon variants
+  &.withIcon {
+    padding-left: 44px;
+  }
+
+  &.withRightIcon {
+    padding-right: 44px;
+  }
+}
+
+.inputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color 0.2s ease-in-out;
+
+  &.left {
+    left: 12px;
+  }
+
+  &.right {
+    right: 12px;
+  }
+}
+
+.input:focus + .icon,
+.inputContainer:hover .icon {
+  color: var(--text-secondary);
+}
+
+.errorMessage {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-error);
+  line-height: 1.4;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.required {
+  color: var(--text-error);
+  margin-left: 2px;
+}

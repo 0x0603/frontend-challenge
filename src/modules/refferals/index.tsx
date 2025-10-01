@@ -17,7 +17,7 @@ const Referrals = () => {
       <Box className={styles.authSection}>
         <Text className="text-title">REFERRALS</Text>
         <Text className="text-subtitle" color="var(--text-secondary)">
-          Refer Friends. Explore the Mocaverse Together. Earn Rewards on Every NFT Trade.You and
+          Refer Friends. Explore the Mocaverse Together. Earn Rewards on Every NFT Trade. You and
           your friend each earn a <strong className={styles.highlight}>10%</strong> commission on
           every NFT trade on Mocaverse.
         </Text>
