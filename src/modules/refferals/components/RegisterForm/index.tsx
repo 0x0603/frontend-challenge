@@ -33,7 +33,7 @@ const FormContainer = ({ children }: { children: React.ReactNode }) => (
 );
 
 const FormTitle = ({ text }: { text: string }) => (
-  <Text textAlign="center" className="text-subtitle">
+  <Text textAlign="center" className="text-subtitle" fontSize="28px">
     {text}
   </Text>
 );

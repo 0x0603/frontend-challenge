@@ -3,6 +3,7 @@ import { memo } from "react";
 import { Box, Text, useDisclosure } from "@chakra-ui/react";
 
 import Button from "@/components/Button";
+import ClientOnly from "@/components/ClientOnly";
 import Dialog from "@/components/Dialog";
 import MainLayout from "@/components/MainLayout";
 
@@ -24,9 +25,11 @@ const Referrals = () => {
           Enter Referral Code
         </Button>
       </Box>
-      <Dialog open={open} onClose={onClose}>
-        <RegisterForm />
-      </Dialog>
+      <ClientOnly>
+        <Dialog open={open} onClose={onClose}>
+          <RegisterForm />
+        </Dialog>
+      </ClientOnly>
     </MainLayout>
   );
 };

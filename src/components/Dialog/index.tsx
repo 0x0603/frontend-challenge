@@ -50,6 +50,8 @@ const Dialog = ({
           bg="var(--background-dialog)"
           borderRadius="8px"
           padding="32px 24px"
+          border="1px solid var(--border)"
+          boxShadow="0 0 10px 0 rgba(24, 15, 15, 0.5)"
         >
           {title || !hideCloseButton ? (
             <DialogHeader
