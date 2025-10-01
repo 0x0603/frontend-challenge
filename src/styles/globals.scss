@@ -16,13 +16,13 @@
 html,
 body {
   height: 100%;
+  background: var(--background);
 }
 
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  background: var(--background);
   color: var(--text);
   font-family: var(--font-reem-kufi);
 }
@@ -78,8 +78,8 @@ a {
   --text-muted: #808080;
   --text-disabled: #666666;
   --text-error: rgba(246, 112, 112, 0.8);
-  --text-success: #00ff00;
-  --text-warning: #ffff00;
+  --text-success: #abf1ab;
+  --text-warning: #f5f597;
   --text-info: #0000ff;
 }
 

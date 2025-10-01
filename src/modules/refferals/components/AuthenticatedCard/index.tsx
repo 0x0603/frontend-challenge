@@ -35,15 +35,14 @@ const AuthenticatedCard = () => {
         </Text>
       </Flex>
 
-      <Box>
-        <Button
-          maxW={{
-            lg: "200px",
-            base: "100%",
-          }}
-          textTransform="uppercase"
-          onClick={handleShareOnX}
-        >
+      <Box
+        maxW={{
+          lg: "315px",
+          base: "100%",
+        }}
+        w="100%"
+      >
+        <Button textTransform="uppercase" onClick={handleShareOnX}>
           Share on <Image src="/svg/x.svg" alt="X" width="18px" height="18px" />
         </Button>
         <Box onClick={handleLogout} className={styles.logout}>

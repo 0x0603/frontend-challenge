@@ -10,24 +10,14 @@ import { ReferralProvider, useReferralContext } from "@/providers/ReferralProvid
 import { useReferralStore } from "@/states/referral";
 
 import AuthenticatedCard from "./components/AuthenticatedCard";
+import ListReferred from "./components/ListReferred";
+import PointCard from "./components/PointCard";
 import RegisterForm from "./components/RegisterForm/UI";
 import styles from "./styles.module.scss";
 
 const Referrals = () => {
   const { openDialog, onOpenDialog, onCloseDialog } = useReferralContext();
   const { referralData } = useReferralStore();
-
-  const renderUnAuthenticated = () => {
-    return (
-      <Button mt="42px" onClick={onOpenDialog}>
-        Enter Referral Code
-      </Button>
-    );
-  };
-
-  const renderAuthenticated = () => {
-    return <AuthenticatedCard />;
-  };
 
   return (
     <MainLayout>
@@ -38,8 +28,18 @@ const Referrals = () => {
           your friend each earn a <strong className={styles.highlight}>10%</strong> commission on
           every NFT trade on Mocaverse.
         </Text>
-        {referralData ? renderAuthenticated() : renderUnAuthenticated()}
+        {referralData ? (
+          <>
+            <AuthenticatedCard />
+            <PointCard />
+          </>
+        ) : (
+          <Button mt="42px" onClick={onOpenDialog}>
+            Enter Referral Code
+          </Button>
+        )}
       </Box>
+      <ListReferred />
       <ClientOnly>
         <Dialog open={openDialog} onClose={onCloseDialog}>
           <RegisterForm />
