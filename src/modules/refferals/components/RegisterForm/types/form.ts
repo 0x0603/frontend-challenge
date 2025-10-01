@@ -1,6 +1,7 @@
 export enum RegisterFormSteps {
   ENTER_CODE = "ENTER_CODE",
   SUBMIT = "SUBMIT",
+  SUCCESS = "SUCCESS",
 }
 
 export interface IStep {

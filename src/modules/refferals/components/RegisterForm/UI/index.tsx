@@ -10,8 +10,8 @@ import useValidateForm from "../hooks/useValidateForm";
 import Content from "./Content";
 
 const initialValues: IRegisterFormValues = {
-  email: "",
-  referralCode: "",
+  email: "nx@gmail.com",
+  referralCode: "123456",
   currentStep: RegisterFormSteps.ENTER_CODE,
 };
 
@@ -23,6 +23,8 @@ const RegisterForm = () => {
     initialValues,
     onSubmit,
     validate,
+    validateOnChange: false,
+    validateOnBlur: false,
   });
 
   return (

@@ -1,32 +1,37 @@
 import { AxiosError } from "axios";
 import { FormikHelpers } from "formik";
+import { useConnect } from "wagmi";
 
 import {
   IRegisterFormValues,
   RegisterFormSteps,
 } from "@/modules/refferals/components/RegisterForm/types/form";
+import { useWalletContext } from "@/providers/WalletProvider";
 import InvideService from "@/services/InvideService";
 import { IReservePayload } from "@/services/InvideService/types";
 import { getErrorMessage } from "@/services/instance";
 
 const useSubmitForm = () => {
-  const verifyCode = async (code: string) => {
-    const response = await InvideService.verifyCode(code);
-    console.log("response", response);
+  const { signMessage, isConnected, address, connect } = useWalletContext();
+
+  const { connectors } = useConnect();
+
+  const verifyReferralCode = async (referralCode: string) => {
+    const response = await InvideService.verifyCode(referralCode);
     return response.ok;
   };
 
-  const isEmailUsed = async (email: string) => {
+  const checkIsEmailUsed = async (email: string) => {
     const response = await InvideService.isEmailUsed(email);
     return response.ok;
   };
 
-  const isWalletUsed = async (wallet: string) => {
-    const response = await InvideService.isWalletUsed(wallet);
+  const checkIsWalletUsed = async (walletAddress: string) => {
+    const response = await InvideService.isWalletUsed(walletAddress);
     return response.ok;
   };
 
-  const onReserve = async (payload: IReservePayload) => {
+  const reserveInvite = async (payload: IReservePayload) => {
     const response = await InvideService.reserve(payload);
     return response.ok;
   };
@@ -54,10 +59,35 @@ const useSubmitForm = () => {
     try {
       switch (values.currentStep) {
         case RegisterFormSteps.ENTER_CODE:
-          await verifyCode(values.referralCode);
+          await verifyReferralCode(values.referralCode);
           setFieldValue("currentStep", RegisterFormSteps.SUBMIT);
           break;
         case RegisterFormSteps.SUBMIT:
+          if (connectors.length === 0) {
+            // open install metamask page
+            window.open("https://metamask.io/download/", "_blank");
+            return;
+          }
+          await checkIsEmailUsed(values.email);
+
+          // Ensure we have a wallet connection
+          let connectedWalletAddress = address;
+          if (!isConnected) {
+            connectedWalletAddress = await connect();
+          }
+
+          const walletAddressToUse = connectedWalletAddress || "";
+          await checkIsWalletUsed(walletAddressToUse);
+
+          const signature = await signMessage(walletAddressToUse);
+
+          await reserveInvite({
+            code: values.referralCode,
+            email: values.email,
+            wallet: walletAddressToUse,
+            signature,
+          });
+          setFieldValue("currentStep", RegisterFormSteps.SUCCESS);
           break;
       }
     } catch (error) {
