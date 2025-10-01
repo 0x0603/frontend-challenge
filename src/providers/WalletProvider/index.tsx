@@ -2,14 +2,15 @@
 
 import { Address } from "viem";
 import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
+import { useAccountEffect } from "wagmi";
 
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 interface WalletContextType {
   isConnected: boolean;
   address: string | undefined;
   connect: () => Promise<string>;
-  disconnect: () => void;
+  disconnect: () => Promise<void>;
   isLoading: boolean;
   error: Error | null;
   signMessage: (message: string) => Promise<string>;
@@ -22,10 +23,9 @@ interface WalletProviderProps {
 }
 
 const WalletProvider = ({ children }: WalletProviderProps) => {
-  const { address, isConnected, ...rest } = useAccount();
-  console.log("isConnected", { address, isConnected, rest });
+  const { address, isConnected } = useAccount();
   const { connectors, isPending, error, connectAsync } = useConnect();
-  const { disconnect } = useDisconnect();
+  const { disconnectAsync } = useDisconnect();
   const { signMessageAsync } = useSignMessage();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -61,9 +61,18 @@ const WalletProvider = ({ children }: WalletProviderProps) => {
     return signature;
   };
 
-  const handleDisconnect = () => {
-    disconnect();
+  const handleDisconnect = async () => {
+    await disconnectAsync();
   };
+
+  useAccountEffect({
+    onConnect() {
+      console.log("Connected!");
+    },
+    onDisconnect() {
+      console.log("Disconnected!");
+    },
+  });
 
   const value: WalletContextType = {
     isConnected,

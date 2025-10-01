@@ -12,6 +12,7 @@ import { IStep } from "@/modules/refferals/components/RegisterForm/types/form";
 
 import InforForm from "./InfoForm";
 import ReferralCodeForm from "./ReferralCodeForm";
+import Success from "./Success";
 
 const FormTitle = ({ text }: { text: string }) => (
   <Text textAlign="center" className="text-subtitle" fontSize="28px">
@@ -26,6 +27,7 @@ const Content = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const enterCodeStepRef = useRef<HTMLDivElement>(null);
   const submitStepRef = useRef<HTMLDivElement>(null);
+  const successStepRef = useRef<HTMLDivElement>(null);
 
   const renderStep = ({ key, ref, title }: IStep) => {
     let component = null;
@@ -35,6 +37,9 @@ const Content = () => {
         break;
       case RegisterFormSteps.SUBMIT:
         component = <InforForm />;
+        break;
+      case RegisterFormSteps.SUCCESS:
+        component = <Success />;
         break;
     }
 
@@ -66,6 +71,11 @@ const Content = () => {
         key: RegisterFormSteps.SUBMIT,
         ref: submitStepRef,
         title: "Join Us",
+      },
+      {
+        key: RegisterFormSteps.SUCCESS,
+        ref: successStepRef,
+        title: "",
       },
     ],
     [],

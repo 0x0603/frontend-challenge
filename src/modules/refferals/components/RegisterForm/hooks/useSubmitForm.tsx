@@ -10,9 +10,12 @@ import { useWalletContext } from "@/providers/WalletProvider";
 import InvideService from "@/services/InvideService";
 import { IReservePayload } from "@/services/InvideService/types";
 import { getErrorMessage } from "@/services/instance";
+import { useReferralStore } from "@/states/referral";
+import randomString from "@/utils/randomString";
 
 const useSubmitForm = () => {
-  const { signMessage, isConnected, address, connect } = useWalletContext();
+  const { signMessage, connect, disconnect } = useWalletContext();
+  const { setReferralData } = useReferralStore();
 
   const { connectors } = useConnect();
 
@@ -71,12 +74,9 @@ const useSubmitForm = () => {
           await checkIsEmailUsed(values.email);
 
           // Ensure we have a wallet connection
-          let connectedWalletAddress = address;
-          if (!isConnected) {
-            connectedWalletAddress = await connect();
-          }
+          await disconnect();
+          const walletAddressToUse = await connect();
 
-          const walletAddressToUse = connectedWalletAddress || "";
           await checkIsWalletUsed(walletAddressToUse);
 
           const signature = await signMessage(walletAddressToUse);
@@ -86,6 +86,15 @@ const useSubmitForm = () => {
             email: values.email,
             wallet: walletAddressToUse,
             signature,
+          });
+
+          const userCodes = Array.from({ length: 10 }, () => randomString(6));
+          setReferralData({
+            enterCode: values.referralCode,
+            email: values.email,
+            address: walletAddressToUse,
+            signature,
+            userCodes,
           });
           setFieldValue("currentStep", RegisterFormSteps.SUCCESS);
           break;

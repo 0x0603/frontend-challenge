@@ -1,17 +1,34 @@
 import { memo } from "react";
 
-import { Box, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 import Button from "@/components/Button";
 import ClientOnly from "@/components/ClientOnly";
 import Dialog from "@/components/Dialog";
 import MainLayout from "@/components/MainLayout";
+import { ReferralProvider, useReferralContext } from "@/providers/ReferralProvider";
+import { useReferralStore } from "@/states/referral";
 
+import AuthenticatedCard from "./components/AuthenticatedCard";
 import RegisterForm from "./components/RegisterForm/UI";
 import styles from "./styles.module.scss";
 
 const Referrals = () => {
-  const { open, onOpen, onClose } = useDisclosure();
+  const { openDialog, onOpenDialog, onCloseDialog } = useReferralContext();
+  const { referralData } = useReferralStore();
+
+  const renderUnAuthenticated = () => {
+    return (
+      <Button mt="42px" onClick={onOpenDialog}>
+        Enter Referral Code
+      </Button>
+    );
+  };
+
+  const renderAuthenticated = () => {
+    return <AuthenticatedCard />;
+  };
+
   return (
     <MainLayout>
       <Box className={styles.authSection}>
@@ -21,12 +38,10 @@ const Referrals = () => {
           your friend each earn a <strong className={styles.highlight}>10%</strong> commission on
           every NFT trade on Mocaverse.
         </Text>
-        <Button mt="42px" onClick={onOpen}>
-          Enter Referral Code
-        </Button>
+        {referralData ? renderAuthenticated() : renderUnAuthenticated()}
       </Box>
       <ClientOnly>
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={openDialog} onClose={onCloseDialog}>
           <RegisterForm />
         </Dialog>
       </ClientOnly>
@@ -34,4 +49,12 @@ const Referrals = () => {
   );
 };
 
-export default memo(Referrals);
+const Page = () => {
+  return (
+    <ReferralProvider>
+      <Referrals />
+    </ReferralProvider>
+  );
+};
+
+export default memo(Page);

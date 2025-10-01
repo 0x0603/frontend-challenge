@@ -10,8 +10,8 @@ import useValidateForm from "../hooks/useValidateForm";
 import Content from "./Content";
 
 const initialValues: IRegisterFormValues = {
-  email: "nx@gmail.com",
-  referralCode: "123456",
+  email: "",
+  referralCode: "",
   currentStep: RegisterFormSteps.ENTER_CODE,
 };
 

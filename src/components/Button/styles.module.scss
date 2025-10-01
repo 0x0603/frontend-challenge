@@ -1,6 +1,7 @@
 .button {
   width: 100%;
   min-height: 56px;
+  max-height: 56px;
   border-radius: 10px;
   background-color: rgb(255, 255, 255);
   position: relative;
@@ -16,6 +17,7 @@
   font-size: 16px;
   font-weight: 600;
   font-family: var(--font-reem-kufi);
+  flex: 1;
 
   transition: transform 0.2s ease-in-out;
 
