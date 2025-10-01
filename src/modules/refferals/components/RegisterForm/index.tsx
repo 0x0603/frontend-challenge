@@ -1,23 +1,11 @@
-import { motion } from "framer-motion";
-
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 
-import Button from "@/components/Button";
-import Input from "@/components/Input";
+import { IStep, RegisterFormSteps } from "@/modules/refferals/types/register-form";
 
-enum RegisterFormSteps {
-  ENTER_CODE = "ENTER_CODE",
-  SUBMIT = "SUBMIT", // Sign message with wallet and enter email
-}
-
-// Reusable step wrapper
-const StepWrapper = ({ children, stepKey }: { children: React.ReactNode; stepKey: string }) => (
-  <Box key={stepKey} flex={1}>
-    {children}
-  </Box>
-);
+import InforForm from "./InforForm";
+import InviteCodeForm from "./InviteCodeForm";
 
 const FormContainer = ({ children }: { children: React.ReactNode }) => (
   <VStack gap="32px" align="stretch" p="8px" h="100%">
@@ -33,8 +21,6 @@ const FormTitle = ({ text }: { text: string }) => (
 
 const RegisterForm = () => {
   const [step, setStep] = useState(RegisterFormSteps.ENTER_CODE);
-  const [referralCode, setReferralCode] = useState("");
-  const [email, setEmail] = useState("");
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const enterCodeStepRef = useRef<HTMLDivElement>(null);
@@ -46,78 +32,48 @@ const RegisterForm = () => {
     }
   };
 
-  const renderEnterCodeStep = () => (
-    <div ref={enterCodeStepRef}>
-      <StepWrapper stepKey={RegisterFormSteps.ENTER_CODE}>
-        <FormContainer>
-          <FormTitle text="Enter Referral Code" />
-          <Input
-            placeholder="Enter your referral code"
-            value={referralCode}
-            onChange={(e) => setReferralCode(e.target.value)}
-            autoFocus
-          />
-          <Button
-            onClick={nextStep}
-            disabled={!referralCode.trim()}
-            mt="auto"
-            styleVariant="gradient"
-          >
-            Next
-          </Button>
-        </FormContainer>
-      </StepWrapper>
-    </div>
-  );
+  const renderStep = ({ key, ref, title }: IStep) => {
+    let component = null;
+    switch (key) {
+      case RegisterFormSteps.ENTER_CODE:
+        component = <InviteCodeForm nextStep={nextStep} />;
+        break;
+      case RegisterFormSteps.SUBMIT:
+        component = <InforForm />;
+        break;
+    }
 
-  const renderSubmitStep = () => (
-    <div ref={submitStepRef}>
-      <StepWrapper stepKey={RegisterFormSteps.SUBMIT}>
+    return (
+      <Box minWidth="50%" flex="0 0 50%" key={key} ref={ref}>
         <FormContainer>
-          <FormTitle text="Join Us" />
-          <Input
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Flex gap={3} mt="auto">
-            {/* <Button variant="outline" onClick={prevStep} flex={1}>
-              Back
-            </Button> */}
-            <Button
-              onClick={() => console.log("Submit")}
-              disabled={!email.trim()}
-              styleVariant="gradient"
-              flex={1}
-            >
-              Submit
-            </Button>
-          </Flex>
+          <FormTitle text={title} />
+          {component}
         </FormContainer>
-      </StepWrapper>
-    </div>
-  );
+      </Box>
+    );
+  };
 
-  const steps = [
-    {
-      key: RegisterFormSteps.ENTER_CODE,
-      ref: enterCodeStepRef,
-      component: renderEnterCodeStep,
-    },
-    {
-      key: RegisterFormSteps.SUBMIT,
-      ref: submitStepRef,
-      component: renderSubmitStep,
-    },
-  ];
+  const steps: IStep[] = useMemo(
+    () => [
+      {
+        key: RegisterFormSteps.ENTER_CODE,
+        ref: enterCodeStepRef,
+        title: "Enter Referral Code",
+      },
+      {
+        key: RegisterFormSteps.SUBMIT,
+        ref: submitStepRef,
+        title: "Join Us",
+      },
+    ],
+    [],
+  );
 
   // Auto-scroll to current step
   useEffect(() => {
     const scrollToStep = () => {
       if (!scrollContainerRef.current) return;
-
       const currentStepRef = steps.find((_step) => _step.key === step)?.ref?.current;
-
       if (currentStepRef) {
         currentStepRef.scrollIntoView({
           behavior: "smooth",
@@ -126,16 +82,15 @@ const RegisterForm = () => {
         });
       }
     };
-
     // Small delay to ensure DOM is updated
     const timeoutId = setTimeout(scrollToStep, 100);
     return () => clearTimeout(timeoutId);
-  }, [step, steps]);
+  }, [step]);
 
   return (
     <Box
       ref={scrollContainerRef}
-      minHeight="220px"
+      minHeight="250px"
       width="100%"
       position="relative"
       overflowY="hidden"
@@ -144,11 +99,7 @@ const RegisterForm = () => {
       className="hide-scrollbar"
     >
       <Flex gap="0" align="stretch" minWidth="200%">
-        {steps.map((step) => (
-          <Box minWidth="50%" flex="0 0 50%" key={step.key}>
-            {step.component()}
-          </Box>
-        ))}
+        {steps.map((step) => renderStep(step))}
       </Flex>
     </Box>
   );

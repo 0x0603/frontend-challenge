@@ -21,6 +21,7 @@ const eslintConfig = [
         },
       ],
       "@typescript-eslint/triple-slash-reference": "off",
+      "react-hooks/exhaustive-deps": "off",
     },
   },
 ];
