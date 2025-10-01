@@ -16,7 +16,7 @@ import RegisterForm from "./components/RegisterForm/UI";
 import styles from "./styles.module.scss";
 
 const Referrals = () => {
-  const { openDialog, onOpenDialog, onCloseDialog } = useReferralContext();
+  const { openRegisterForm, onOpenRegisterForm, onCloseRegisterForm } = useReferralContext();
   const { referralData } = useReferralStore();
 
   return (
@@ -28,20 +28,20 @@ const Referrals = () => {
           your friend each earn a <strong className={styles.highlight}>10%</strong> commission on
           every NFT trade on Mocaverse.
         </Text>
-        {referralData ? (
+        {!!referralData ? (
           <>
             <AuthenticatedCard />
             <PointCard />
           </>
         ) : (
-          <Button mt="42px" onClick={onOpenDialog}>
+          <Button mt="42px" onClick={onOpenRegisterForm}>
             Enter Referral Code
           </Button>
         )}
       </Box>
-      <ListReferred />
+      {referralData && <ListReferred />}
       <ClientOnly>
-        <Dialog open={openDialog} onClose={onCloseDialog}>
+        <Dialog open={openRegisterForm} onClose={onCloseRegisterForm}>
           <RegisterForm />
         </Dialog>
       </ClientOnly>

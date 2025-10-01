@@ -1,5 +1,7 @@
 import { useFormikContext } from "formik";
 
+import { memo } from "react";
+
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 
@@ -22,6 +24,7 @@ const InfoForm = () => {
         styleVariant="gradient"
         flex={1}
         loading={isSubmitting && currentStep === RegisterFormSteps.SUBMIT}
+        loadingText="Connecting..."
       >
         Connect Wallet
       </Button>
@@ -29,4 +32,4 @@ const InfoForm = () => {
   );
 };
 
-export default InfoForm;
+export default memo(InfoForm);

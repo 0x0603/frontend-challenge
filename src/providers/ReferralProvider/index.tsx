@@ -1,34 +1,29 @@
-import React, { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
+import React, { ReactNode, createContext, useContext } from "react";
 
 import { useDisclosure } from "@chakra-ui/react";
 
 interface ReferralContextType {
-  openDialog: boolean;
-  onOpenDialog: () => void;
-  onCloseDialog: () => void;
+  openRegisterForm: boolean;
+  onOpenRegisterForm: () => void;
+  onCloseRegisterForm: () => void;
 }
 
 const ReferralContext = createContext<ReferralContextType | undefined>(undefined);
 
 export const ReferralProvider = ({ children }: { children: ReactNode }) => {
-  const { open, onOpen, onClose } = useDisclosure();
-
-  const [inited, setInited] = useState(false);
+  const {
+    open: openRegisterForm,
+    onOpen: onOpenRegisterForm,
+    onClose: onCloseRegisterForm,
+  } = useDisclosure();
 
   const value: ReferralContextType = {
-    openDialog: open,
-    onOpenDialog: onOpen,
-    onCloseDialog: onClose,
+    openRegisterForm: openRegisterForm,
+    onOpenRegisterForm: onOpenRegisterForm,
+    onCloseRegisterForm: onCloseRegisterForm,
   };
 
-  useEffect(() => {
-    if (inited) return;
-    setTimeout(() => {
-      setInited(true);
-    }, 100);
-  }, []);
-
-  return <ReferralContext.Provider value={value}>{inited && children}</ReferralContext.Provider>;
+  return <ReferralContext.Provider value={value}>{children}</ReferralContext.Provider>;
 };
 
 export const useReferralContext = () => {

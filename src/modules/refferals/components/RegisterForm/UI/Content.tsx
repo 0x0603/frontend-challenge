@@ -1,6 +1,6 @@
 import { useFormikContext } from "formik";
 
-import { useEffect, useMemo, useRef } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 
@@ -109,6 +109,8 @@ const Content = () => {
       overflowX="auto"
       mt="24px"
       className="hide-scrollbar"
+      userSelect="none"
+      onDragStart={(e) => e.preventDefault()}
     >
       <Flex gap="0" align="stretch" minWidth="200%">
         {steps.map((step) => renderStep(step))}
@@ -117,4 +119,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default memo(Content);

@@ -6,6 +6,8 @@ import { useAccountEffect } from "wagmi";
 
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
+import { useReferralStore } from "@/states/referral";
+
 interface WalletContextType {
   isConnected: boolean;
   address: string | undefined;
@@ -28,6 +30,9 @@ const WalletProvider = ({ children }: WalletProviderProps) => {
   const { disconnectAsync } = useDisconnect();
   const { signMessageAsync } = useSignMessage();
   const [isLoading, setIsLoading] = useState(false);
+  const { resetReferralData } = useReferralStore();
+
+  const [inited, setInited] = useState(false);
 
   const handleConnect = async () => {
     setIsLoading(true);
@@ -62,17 +67,12 @@ const WalletProvider = ({ children }: WalletProviderProps) => {
   };
 
   const handleDisconnect = async () => {
-    await disconnectAsync();
+    try {
+      await disconnectAsync();
+    } catch (error) {
+      //TODO: handle error
+    }
   };
-
-  useAccountEffect({
-    onConnect() {
-      console.log("Connected!");
-    },
-    onDisconnect() {
-      console.log("Disconnected!");
-    },
-  });
 
   const value: WalletContextType = {
     isConnected,
@@ -84,7 +84,24 @@ const WalletProvider = ({ children }: WalletProviderProps) => {
     signMessage: handleSignMessage,
   };
 
-  return <WalletContext.Provider value={value}>{children}</WalletContext.Provider>;
+  useAccountEffect({
+    onConnect() {
+      console.log("Connected!");
+    },
+    onDisconnect() {
+      console.log("Disconnected!");
+      resetReferralData();
+    },
+  });
+
+  useEffect(() => {
+    if (inited) return;
+    setTimeout(() => {
+      setInited(true);
+    }, 100);
+  }, []);
+
+  return <WalletContext.Provider value={value}>{inited && children}</WalletContext.Provider>;
 };
 
 export default WalletProvider;

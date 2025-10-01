@@ -1,6 +1,8 @@
 import { useFormikContext } from "formik";
 
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { memo } from "react";
+
+import { Text, VStack } from "@chakra-ui/react";
 
 import Button from "@/components/Button";
 import { useReferralContext } from "@/providers/ReferralProvider";
@@ -8,31 +10,17 @@ import { useReferralContext } from "@/providers/ReferralProvider";
 import { IRegisterFormValues } from "../types/form";
 
 const Success = () => {
-  const { onCloseDialog } = useReferralContext();
+  const { onCloseRegisterForm } = useReferralContext();
   const { values } = useFormikContext<IRegisterFormValues>();
   const { email } = values;
 
   const handleStartOver = () => {
-    onCloseDialog();
+    onCloseRegisterForm();
   };
 
   return (
     <VStack gap="32px" p="8px" h="100%" align="stretch" justify="center">
       <VStack gap="16px" textAlign="center">
-        <Box
-          width="80px"
-          height="80px"
-          borderRadius="50%"
-          bg="green.500"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          fontSize="40px"
-          color="white"
-        >
-          ✓
-        </Box>
-
         <Text fontSize="28px" fontWeight="bold" color="white">
           Welcome Aboard!
         </Text>
@@ -45,13 +33,11 @@ const Success = () => {
         </Text>
       </VStack>
 
-      <VStack gap="12px">
-        <Button onClick={handleStartOver} styleVariant="gradient" width="100%">
-          Start Over
-        </Button>
-      </VStack>
+      <Button onClick={handleStartOver} styleVariant="gradient" width="100%">
+        Start Over
+      </Button>
     </VStack>
   );
 };
 
-export default Success;
+export default memo(Success);

@@ -1,5 +1,7 @@
 import { Form, FormikProvider, useFormik } from "formik";
 
+import { memo } from "react";
+
 import {
   IRegisterFormValues,
   RegisterFormSteps,
@@ -36,4 +38,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default memo(RegisterForm);
