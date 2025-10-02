@@ -4,6 +4,8 @@
 
 🚀 **Live Demo**: [https://mocaverse-frontend.vercel.app/](https://mocaverse-frontend.vercel.app/)
 
+![App Screenshot](./public/demo.png)
+
 ## Setup Instructions
 
 ### Prerequisites
