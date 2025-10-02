@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
 import { FormikHelpers } from "formik";
-import { useConnect } from "wagmi";
 
 import {
   IRegisterFormValues,
@@ -16,8 +15,6 @@ import randomString from "@/utils/randomString";
 const useSubmitForm = () => {
   const { signMessage, connect, disconnect } = useWalletContext();
   const { setReferralData } = useReferralStore();
-
-  const { connectors } = useConnect();
 
   const verifyReferralCode = async (referralCode: string) => {
     const response = await InvideService.verifyCode(referralCode);
@@ -66,11 +63,6 @@ const useSubmitForm = () => {
           setFieldValue("currentStep", RegisterFormSteps.SUBMIT);
           break;
         case RegisterFormSteps.SUBMIT:
-          if (connectors.length === 0) {
-            // open install metamask page
-            window.open("https://metamask.io/download/", "_blank");
-            return;
-          }
           await checkIsEmailUsed(values.email);
 
           // Ensure we have a wallet connection

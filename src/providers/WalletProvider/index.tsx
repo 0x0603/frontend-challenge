@@ -37,6 +37,13 @@ const WalletProvider = ({ children }: WalletProviderProps) => {
   const handleConnect = async () => {
     setIsLoading(true);
     try {
+      // Check if MetaMask or any injected wallet is available
+      if (typeof window !== "undefined" && !window.ethereum) {
+        // No wallet installed, open MetaMask download page
+        window.open("https://metamask.io/download/", "_blank");
+        throw new Error("No wallet installed. Please install MetaMask to continue.");
+      }
+
       // Use the first available connector (usually MetaMask or injected wallet)
       const connector = connectors[0];
       if (connector) {
@@ -51,7 +58,6 @@ const WalletProvider = ({ children }: WalletProviderProps) => {
         throw new Error("No connector found");
       }
     } catch (err) {
-      console.error("Failed to connect wallet:", err);
       throw err;
     } finally {
       setIsLoading(false);
